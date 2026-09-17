@@ -1,5 +1,7 @@
 package com.prepforge.service;
 
+import com.prepforge.model.Category;
+import com.prepforge.model.Difficulty;
 import com.prepforge.model.InterviewQuestion;
 import com.prepforge.repository.InterviewQuestionRepository;
 import org.springframework.stereotype.Service;
@@ -24,10 +26,12 @@ public class InterviewQuestionService{
         return interviewQuestionRepository.findById(id);
     }
 
+    // Create
     public InterviewQuestion createQuestion(InterviewQuestion question){
         return interviewQuestionRepository.save(question);
     }
 
+    // Update
     public Optional<InterviewQuestion> updateQuestion(Long id, InterviewQuestion updatedQuestion){
         Optional<InterviewQuestion> result = interviewQuestionRepository.findById(id);
 
@@ -48,10 +52,34 @@ public class InterviewQuestionService{
         return Optional.of(savedQuestion);
     }
 
+    // Delete
     public boolean deleteQuestion(Long id){
         if (!interviewQuestionRepository.existsById(id))
             return false;
         interviewQuestionRepository.deleteById(id);
         return true;
+    }
+
+    public List<InterviewQuestion> searchQuestion(
+            String keyword,
+            Category category,
+            Difficulty difficulty){
+        List<InterviewQuestion> questions = getAllQuestions();
+
+        List<InterviewQuestion> filteredQuestion = questions.stream()
+                .filter(question ->
+                        keyword == null ||
+                        keyword.isBlank()||
+                        question.getTitle().toLowerCase().contains(keyword.toLowerCase())||
+                        question.getDescription().toLowerCase().contains(keyword.toLowerCase()))
+                .filter(question ->
+                        category == null||
+                        question.getCategory() == category)
+                .filter(question ->
+                        difficulty == null||
+                        question.getDifficulty() == difficulty)
+                .toList();
+
+        return filteredQuestion;
     }
 }
