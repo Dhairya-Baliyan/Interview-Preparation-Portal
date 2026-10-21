@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${question.title}">Question Details</title>
+</head>
+<body>
+
+<a th:href="@{/questions}">Back to Questions</a>
+
+<h1 th:text="${question.title}"></h1>
+
+<p>
+    <strong>Category:</strong>
+    <span th:text="${question.category}"></span>
+</p>
+
+<p>
+    <strong>Difficulty:</strong>
+    <span th:text="${question.difficulty}"></span>
+</p>
+
+<h2>Description</h2>
+<p th:text="${question.description}"></p>
+
+<h2>Explanation</h2>
+<p th:text="${question.explanation}"></p>
+
+<div th:if="${question.answer != null}">
+    <h2>Answer</h2>
+    <p th:text="${question.answer}"></p>
+</div>
+
+<a th:href="@{/questions/{id}/edit(id=${question.id})}">
+    Edit Question
+</a>
+
+</body>
+</html>

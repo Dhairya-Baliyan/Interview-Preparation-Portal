@@ -28,7 +28,7 @@ public class InterviewQuestion {
     @Column
     private String answer;
 
-    protected InterviewQuestion(){
+    public InterviewQuestion(){
 
     }
     // Parameterized Constructor

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Interview Questions</title>
+</head>
+<body>
+
+<h1>Interview Questions</h1>
+
+<a th:href="@{/questions/new}">Create Question</a>
+
+<form th:action="@{/questions}" method="get">
+    <input type="text"
+           name="keyword"
+           placeholder="Search questions"
+           th:value="${keyword}">
+
+    <select name="category">
+        <option value="">All Categories</option>
+        <option th:each="categoryOption : ${categories}"
+                th:value="${categoryOption}"
+                th:text="${categoryOption}"
+                th:selected="${categoryOption == selectedCategory}">
+        </option>
+    </select>
+
+    <select name="difficulty">
+        <option value="">All Difficulties</option>
+        <option th:each="difficultyOption : ${difficulties}"
+                th:value="${difficultyOption}"
+                th:text="${difficultyOption}"
+                th:selected="${difficultyOption == selectedDifficulty}">
+        </option>
+    </select>
+
+    <button type="submit">Search</button>
+</form>
+
+<p th:if="${#lists.isEmpty(questions)}">
+    No questions found.
+</p>
+
+<div th:each="question : ${questions}">
+    <h2>
+        <a th:href="@{/questions/{id}(id=${question.id})}"
+           th:text="${question.title}">
+        </a>
+    </h2>
+
+    <p th:text="${question.category}"></p>
+    <p th:text="${question.difficulty}"></p>
+
+    <a th:href="@{/questions/{id}/edit(id=${question.id})}">
+        Edit
+    </a>
+
+    <form th:action="@{/questions/{id}/delete(id=${question.id})}"
+          method="post">
+        <button type="submit">Delete</button>
+    </form>
+</div>
+
+</body>
+</html>

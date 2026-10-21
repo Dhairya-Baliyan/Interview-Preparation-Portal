@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Question Form</title>
+</head>
+<body>
+
+<a th:href="@{/questions}">Back to Questions</a>
+
+<h1>Question Form</h1>
+
+<form th:action="${formAction}"
+      th:object="${question}"
+      method="post">
+
+    <label>Title</label>
+    <input type="text" th:field="*{title}" required>
+
+    <label>Description</label>
+    <textarea th:field="*{description}" required></textarea>
+
+    <label>Category</label>
+    <select th:field="*{category}" required>
+        <option value="">Select category</option>
+        <option th:each="categoryOption : ${categories}"
+                th:value="${categoryOption}"
+                th:text="${categoryOption}">
+        </option>
+    </select>
+
+    <label>Difficulty</label>
+    <select th:field="*{difficulty}" required>
+        <option value="">Select difficulty</option>
+        <option th:each="difficultyOption : ${difficulties}"
+                th:value="${difficultyOption}"
+                th:text="${difficultyOption}">
+        </option>
+    </select>
+
+    <label>Explanation</label>
+    <textarea th:field="*{explanation}" required></textarea>
+
+    <label>Answer</label>
+    <textarea th:field="*{answer}"></textarea>
+
+    <button type="submit">Save Question</button>
+</form>
+
+</body>
+</html>
